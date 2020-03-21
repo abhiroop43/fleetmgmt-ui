@@ -1,7 +1,57 @@
-<mat-card>
-  <mat-card-title>Sign In</mat-card-title>
-  <mat-card-content> </mat-card-content>
-  <mat-card-actions>
-    <button mat-raised-button color="primary">Login</button>
-  </mat-card-actions>
-</mat-card>
+<form [formGroup]="loginForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Sign In</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="standard" class="full-width">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="username" />
+            <mat-error
+              *ngIf="loginForm.controls['username'].hasError('required')"
+            >
+              Username is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="standard" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" />
+            <mat-error
+              *ngIf="loginForm.controls['password'].hasError('required')"
+            >
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-checkbox formControlName="rememberMe">Remember Me</mat-checkbox>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button
+        mat-raised-button
+        color="primary"
+        type="submit"
+        [disabled]="!loginForm.valid"
+      >
+        Sign In
+      </button>
+    </mat-card-actions>
+    <mat-card-footer>
+      <div class="row">
+        <div class="col">
+          To register, please click <a routerLink="/auth/register">here</a>
+        </div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</form>

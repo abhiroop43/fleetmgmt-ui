@@ -4,6 +4,20 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class AuthenticationService {
+  token = null;
+  constructor() {}
 
-  constructor() { }
+  checkIfUserAuthenticated() {
+    this.token = localStorage.getItem('token');
+
+    if (this.token === null) {
+      this.token = sessionStorage.getItem('token');
+    }
+
+    return this.token !== null;
+  }
+
+  getCurrentToken() {
+    return this.token;
+  }
 }
