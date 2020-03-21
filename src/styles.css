@@ -13,3 +13,14 @@ body {
      Every toolbar row uses a flexbox row layout. */
   flex: 1 1 auto;
 }
+a.nostyle:link {
+  text-decoration: inherit;
+  color: inherit;
+  /* cursor: auto; */
+}
+
+a.nostyle:visited {
+  text-decoration: inherit;
+  color: inherit;
+  /* cursor: auto; */
+}
