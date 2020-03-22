@@ -18,6 +18,8 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
+import { AuthenticationService } from './auth/authentication.service';
 
 @NgModule({
   declarations: [AppComponent, TestFormComponent],
@@ -29,6 +31,7 @@ import { ReactiveFormsModule } from '@angular/forms';
       enabled: environment.production
     }),
     LayoutModule,
+    HttpClientModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -40,7 +43,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatCardModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [AuthenticationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

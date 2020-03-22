@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Observable, of } from 'rxjs';
+import { AuthenticationService } from '../authentication.service';
+import { IAuthToken } from '../../models/token.model';
+
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,11 +15,24 @@ export class LoginComponent implements OnInit {
     password: [null, Validators.required],
     rememberMe: false
   });
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {}
 
   onSubmit() {
-    console.log('Form value: ', this.loginForm);
+    console.log('Form value: ', this.loginForm.value);
+    const obsToken: Observable<IAuthToken> = this.authService.loginUser(
+      this.loginForm.value
+    );
+
+    obsToken.subscribe(tokenResponse => {
+      this.authService.setToken(
+        tokenResponse.access_token,
+        this.loginForm.controls.rememberMe.value
+      );
+    });
   }
 }

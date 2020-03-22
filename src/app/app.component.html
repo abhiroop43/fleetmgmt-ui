@@ -8,7 +8,7 @@
     [opened]="(isHandset$ | async) === false"
   >
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list>
+    <mat-nav-list *ngIf="(toggleSideNav$ | async) === true">
       <a mat-list-item routerLink="/vehicle/list" routerLinkActive="active"
         >Vehicles</a
       >
@@ -33,11 +33,29 @@
       <span><a routerLink="/" class="nostyle">Fleet Management</a></span>
       <!-- This fills the remaining space of the current row -->
       <span class="fill-remaining-space"></span>
-      <button mat-button routerLink="/auth/register" routerLinkActive="active">
+      <button
+        mat-button
+        routerLink="/auth/register"
+        routerLinkActive="active"
+        *ngIf="!authService.checkIfUserAuthenticated()"
+      >
         Register
       </button>
-      <button mat-button routerLink="/auth/login" routerLinkActive="active">
+      <button
+        mat-button
+        routerLink="/auth/login"
+        routerLinkActive="active"
+        *ngIf="!authService.checkIfUserAuthenticated()"
+      >
         Login
+      </button>
+      <button
+        mat-button
+        routerLink="/auth/logout"
+        routerLinkActive="active"
+        *ngIf="authService.checkIfUserAuthenticated()"
+      >
+        Logout
       </button>
     </mat-toolbar>
     <!-- Add Content Here -->
