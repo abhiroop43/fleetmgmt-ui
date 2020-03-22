@@ -18,8 +18,7 @@ const routes: Routes = [
   },
   {
     path: 'trip',
-    loadChildren: () =>
-      import('./trip/trip.module').then(m => m.TripModule)
+    loadChildren: () => import('./trip/trip.module').then(m => m.TripModule)
   },
   {
     path: 'accident',

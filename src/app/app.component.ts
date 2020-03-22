@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable, of } from 'rxjs';
@@ -11,9 +11,7 @@ import { AuthenticationService } from './auth/authentication.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit {
-  toggleSideNav$: Observable<
-    boolean
-  > = this.authService.checkIfUserAuthenticated();
+  toggleSideNav$: Observable<boolean>;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(
@@ -25,13 +23,17 @@ export class AppComponent implements OnInit {
     private router: Router,
     private breakpointObserver: BreakpointObserver,
     public authService: AuthenticationService
-  ) {}
-  ngOnInit(): void {
-    // this.toggleSideNav$ = this.authService.checkIfUserAuthenticated();
+  ) {
+    this.toggleSideNav$ = authService.checkIfUserAuthenticated();
   }
+
+  ngOnInit(): void {}
 
   logoutUser() {
     this.authService.logoutUser();
     this.router.navigate(['/auth/login']);
+    // .then(() => {
+    //   window.location.reload();
+    // })
   }
 }

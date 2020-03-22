@@ -6,7 +6,7 @@ body {
 }
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 .fill-remaining-space {
   /* This fills the remaining space, by using flexbox.
@@ -23,4 +23,16 @@ a.nostyle:visited {
   text-decoration: inherit;
   color: inherit;
   /* cursor: auto; */
+}
+
+.visible {
+  display: auto;
+}
+
+.hidden {
+  display: none;
+}
+
+[hidden] {
+  display: none !important;
 }

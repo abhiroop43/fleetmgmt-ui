@@ -36,6 +36,9 @@ export class LoginComponent implements OnInit {
         this.loginForm.controls.rememberMe.value
       );
       this.router.navigate(['/vehicle/list']);
+      // .then(() => {
+      //   window.location.reload();
+      // })
     });
   }
 }

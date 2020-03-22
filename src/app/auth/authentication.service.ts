@@ -1,38 +1,52 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
+import { Observable, of, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  static token =
-    localStorage.getItem('token') != null
-      ? localStorage.getItem('token')
-      : sessionStorage.getItem('token');
+  // static token =
+  //   localStorage.getItem('token') != null
+  //     ? localStorage.getItem('token')
+  //     : sessionStorage.getItem('token');
+
+  isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
 
   tokenUrl = 'http://localhost:5000/connect/token';
   registerUrl = 'http://localhost:5000/Account/RegisterUser';
 
   constructor(private http: HttpClient) {}
 
-  checkIfUserAuthenticated() {
-    AuthenticationService.token =
-      localStorage.getItem('token') != null
+  hasToken() {
+    return (
+      (localStorage.getItem('token') != null
         ? localStorage.getItem('token')
-        : sessionStorage.getItem('token');
+        : sessionStorage.getItem('token')) != null
+    );
+  }
 
-    console.log('token value:', AuthenticationService.token);
-    console.log('return value:', AuthenticationService.token !== null);
-    return of(AuthenticationService.token !== null);
+  checkIfUserAuthenticated() {
+    // AuthenticationService.token =
+    //   localStorage.getItem('token') != null
+    //     ? localStorage.getItem('token')
+    //     : sessionStorage.getItem('token');
+
+    // console.log('token value:', AuthenticationService.token);
+    // console.log('return value:', AuthenticationService.token !== null);
+    // return of(AuthenticationService.token !== null);
+    return this.isLoginSubject.asObservable();
   }
 
   getCurrentToken() {
-    return AuthenticationService.token;
+    return localStorage.getItem('token') != null
+      ? localStorage.getItem('token')
+      : sessionStorage.getItem('token');
   }
 
   setToken(accessToken: string, remember: boolean) {
-    AuthenticationService.token = accessToken;
+    // AuthenticationService.token = accessToken;
+    this.isLoginSubject.next(true);
     if (remember === true) {
       localStorage.setItem('token', accessToken);
     } else {
@@ -65,5 +79,6 @@ export class AuthenticationService {
   logoutUser() {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
+    this.isLoginSubject.next(false);
   }
 }

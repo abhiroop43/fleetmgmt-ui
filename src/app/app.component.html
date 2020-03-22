@@ -8,7 +8,7 @@
     [opened]="(isHandset$ | async) === false"
   >
     <mat-toolbar>Menu</mat-toolbar>
-    <mat-nav-list *ngIf="(toggleSideNav$ | async) === true">
+    <mat-nav-list *ngIf="toggleSideNav$ | async">
       <a mat-list-item routerLink="/vehicle/list" routerLinkActive="active"
         >Vehicles</a
       >
@@ -37,7 +37,7 @@
         mat-button
         routerLink="/auth/register"
         routerLinkActive="active"
-        *ngIf="(toggleSideNav$ | async) === false"
+        *ngIf="!(toggleSideNav$ | async)"
       >
         Register
       </button>
@@ -45,15 +45,11 @@
         mat-button
         routerLink="/auth/login"
         routerLinkActive="active"
-        *ngIf="(toggleSideNav$ | async) === false"
+        *ngIf="!(toggleSideNav$ | async)"
       >
         Login
       </button>
-      <button
-        mat-button
-        *ngIf="(toggleSideNav$ | async) === true"
-        (click)="logoutUser()"
-      >
+      <button mat-button *ngIf="toggleSideNav$ | async" (click)="logoutUser()">
         Logout
       </button>
     </mat-toolbar>
