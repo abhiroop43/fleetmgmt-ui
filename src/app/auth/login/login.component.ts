@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { AuthenticationService } from '../authentication.service';
 import { IAuthToken } from '../../models/token.model';
@@ -16,6 +17,7 @@ export class LoginComponent implements OnInit {
     rememberMe: false
   });
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private authService: AuthenticationService
   ) {}
@@ -33,6 +35,7 @@ export class LoginComponent implements OnInit {
         tokenResponse.access_token,
         this.loginForm.controls.rememberMe.value
       );
+      this.router.navigate(['/vehicle/list']);
     });
   }
 }

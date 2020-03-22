@@ -1,34 +1,38 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  token = null;
+  static token =
+    localStorage.getItem('token') != null
+      ? localStorage.getItem('token')
+      : sessionStorage.getItem('token');
+
   tokenUrl = 'http://localhost:5000/connect/token';
   registerUrl = 'http://localhost:5000/Account/RegisterUser';
 
   constructor(private http: HttpClient) {}
 
   checkIfUserAuthenticated() {
-    this.token = localStorage.getItem('token');
+    AuthenticationService.token =
+      localStorage.getItem('token') != null
+        ? localStorage.getItem('token')
+        : sessionStorage.getItem('token');
 
-    if (this.token === null) {
-      this.token = sessionStorage.getItem('token');
-    } else {
-      this.token = null;
-    }
-    // console.log('token value:', this.token);
-    return this.token !== null;
+    console.log('token value:', AuthenticationService.token);
+    console.log('return value:', AuthenticationService.token !== null);
+    return of(AuthenticationService.token !== null);
   }
 
   getCurrentToken() {
-    return this.token;
+    return AuthenticationService.token;
   }
 
   setToken(accessToken: string, remember: boolean) {
+    AuthenticationService.token = accessToken;
     if (remember === true) {
       localStorage.setItem('token', accessToken);
     } else {
@@ -56,5 +60,10 @@ export class AuthenticationService {
     //     sessionStorage.setItem('token', this.token);
     //   }
     // });
+  }
+
+  logoutUser() {
+    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
   }
 }
