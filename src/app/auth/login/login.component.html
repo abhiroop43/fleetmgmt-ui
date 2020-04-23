@@ -8,7 +8,7 @@
         <div class="col">
           <mat-form-field appearance="standard" class="full-width">
             <mat-label>Username</mat-label>
-            <input matInput formControlName="username" />
+            <input matInput formControlName="username" email />
             <mat-error
               *ngIf="loginForm.controls['username'].hasError('required')"
             >

@@ -20,15 +20,17 @@ import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from './auth/authentication.service';
+import { AppConfigModule } from './app-config.module';
 
 @NgModule({
   declarations: [AppComponent, TestFormComponent],
   imports: [
+    AppConfigModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
-      enabled: environment.production
+      enabled: environment.production,
     }),
     LayoutModule,
     HttpClientModule,
@@ -41,9 +43,9 @@ import { AuthenticationService } from './auth/authentication.service';
     MatSelectModule,
     MatRadioModule,
     MatCardModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   providers: [AuthenticationService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {}

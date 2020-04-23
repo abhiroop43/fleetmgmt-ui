@@ -1,1 +1,59 @@
-<p>register works!</p>
+<form [formGroup]="registerForm" novalidate (ngSubmit)="onSubmit()">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Register User</mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="standard" class="full-width">
+            <mat-label>Username</mat-label>
+            <input matInput formControlName="email" email />
+            <mat-error *ngIf="registerForm.controls['email'].hasError('required')">
+              Email is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="standard" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput formControlName="password" type="password" />
+            <mat-error *ngIf="registerForm.controls['password'].hasError('required')">
+              Password is <strong>required</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <mat-form-field appearance="standard" class="full-width">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput formControlName="confirmPassword" type="password" />
+            <mat-error *ngIf="registerForm.controls['confirmPassword'].hasError('required')">
+              Confirm Password is <strong>required</strong>
+            </mat-error>
+            <mat-error *ngIf="registerForm.controls['confirmPassword'] !== registerForm.controls['password']">
+              Password and Confirm Password must match
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+
+    </mat-card-content>
+    <mat-card-actions align="right">
+      <button mat-raised-button color="primary" type="submit" [disabled]="!registerForm.valid">
+        Register
+      </button>
+    </mat-card-actions>
+    <mat-card-footer>
+      <div class="row">
+        <div class="col">
+          Already have an account, please click <a routerLink="/auth/login">here to login</a>
+        </div>
+      </div>
+    </mat-card-footer>
+  </mat-card>
+</form>

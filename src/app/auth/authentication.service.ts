@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject } from 'rxjs';
+import { IRegisterUser } from '../models/registerUser.model';
+import { APP_CONFIG, AppConfig } from '../app-config.module';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthenticationService {
   // static token =
@@ -13,10 +15,13 @@ export class AuthenticationService {
 
   isLoginSubject = new BehaviorSubject<boolean>(this.hasToken());
 
-  tokenUrl = 'http://localhost:5000/connect/token';
-  registerUrl = 'http://localhost:5000/Account/RegisterUser';
+  tokenUrl = `${this.config.identityApiUrl}connect/token`;
+  registerUrl = `${this.config.identityApiUrl}Account/RegisterUser`;
 
-  constructor(private http: HttpClient) {}
+  constructor(
+    private http: HttpClient,
+    @Inject(APP_CONFIG) private config: AppConfig
+  ) {}
 
   hasToken() {
     return (
@@ -58,11 +63,12 @@ export class AuthenticationService {
     // var obsToken: Observable<IAuthToken> =
     return this.http.post(
       this.tokenUrl,
+      // tslint:disable-next-line: max-line-length
       `client_id=ro.client&client_secret=secret&grant_type=password&username=${userCredentials.username}&password=${userCredentials.password}&rememberMe=${userCredentials.rememberMe}&scope=fleetMgmt`,
       {
         headers: new HttpHeaders({
-          'Content-Type': 'application/x-www-form-urlencoded'
-        })
+          'Content-Type': 'application/x-www-form-urlencoded',
+        }),
       }
     );
 
@@ -80,5 +86,13 @@ export class AuthenticationService {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
     this.isLoginSubject.next(false);
+  }
+
+  registerUser(userRegistrationDetails: IRegisterUser) {
+    return this.http.post(this.registerUrl, userRegistrationDetails, {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    });
   }
 }

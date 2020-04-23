@@ -8,13 +8,13 @@ import { IAuthToken } from '../../models/token.model';
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
   loginForm = this.fb.group({
-    username: [null, Validators.required],
+    username: [null, [Validators.required, Validators.email]],
     password: [null, Validators.required],
-    rememberMe: false
+    rememberMe: false,
   });
   constructor(
     private router: Router,
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
       this.loginForm.value
     );
 
-    obsToken.subscribe(tokenResponse => {
+    obsToken.subscribe((tokenResponse) => {
       this.authService.setToken(
         tokenResponse.access_token,
         this.loginForm.controls.rememberMe.value
