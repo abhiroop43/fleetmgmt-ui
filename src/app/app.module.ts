@@ -21,6 +21,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AuthenticationService } from './auth/authentication.service';
 import { AppConfigModule } from './app-config.module';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [AppComponent, TestFormComponent],
@@ -29,6 +30,7 @@ import { AppConfigModule } from './app-config.module';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    ToastrModule.forRoot(),
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
     }),

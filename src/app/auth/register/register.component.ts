@@ -5,6 +5,7 @@ import { FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { AuthenticationService } from '../authentication.service';
 import { Observable } from 'rxjs';
 import { IRegisterUser } from 'src/app/models/registerUser.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -26,8 +27,12 @@ export class RegisterComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private authService: AuthenticationService
-  ) {}
+    private authService: AuthenticationService,
+    private toastr: ToastrService
+  ) {
+    this.toastr.toastrConfig.enableHtml = true;
+    this.toastr.toastrConfig.maxOpened = 5;
+  }
 
   ngOnInit(): void {}
 
@@ -54,12 +59,9 @@ export class RegisterComponent implements OnInit {
             .map((elem) => {
               return elem.description;
             })
-            .join(',');
+            .join('<br/>');
 
-          // TODO: Move error message to toast notifications
-          console.warn(
-            `Error occurred during user registration: ${errorMessages}`
-          );
+          this.toastr.error(errorMessages, 'Failed to register user');
         }
       }
     );
