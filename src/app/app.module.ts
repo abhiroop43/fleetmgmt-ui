@@ -18,10 +18,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCardModule } from '@angular/material/card';
 import { ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthenticationService } from './auth/authentication.service';
 import { AppConfigModule } from './app-config.module';
 import { ToastrModule } from 'ngx-toastr';
+import { AuthInterceptor } from './auth/auth.interceptor';
 
 @NgModule({
   declarations: [AppComponent, TestFormComponent],
@@ -47,7 +48,10 @@ import { ToastrModule } from 'ngx-toastr';
     MatCardModule,
     ReactiveFormsModule,
   ],
-  providers: [AuthenticationService],
+  providers: [
+    AuthenticationService,
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
