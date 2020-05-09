@@ -49,8 +49,8 @@ import { AuthInterceptor } from './auth/auth.interceptor';
     ReactiveFormsModule,
   ],
   providers: [
-    AuthenticationService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    AuthenticationService
+    // { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent],
 })
